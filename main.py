@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import smtplib
 import email.message
+import time
 
 # Função para obter o valor do BTC
 def get_btc_value(driver):
@@ -26,9 +27,9 @@ def send_email(name, email_input, btc_value):
 
     msg = email.message.Message()
     msg['Subject'] = 'BTC Value Update'  # Assunto do E-mail
-    msg['From'] = 'contaparatestepython@gmail.com'  # E-mail que vai enviar
+    msg['From'] = 'contaparatestepython123@gmail.com'  # E-mail que vai enviar
     msg['To'] = email_input
-    password = 'xxxx xxxx xxxx xxxx'  # Senha para o "App passwords of Google"
+    password = 'npsq vanm krda udgy'  # Senha para o "App passwords of Google"
     msg.add_header('Content-Type', 'text/html')
     msg.set_payload(corpo_email)
 
@@ -44,26 +45,30 @@ def main():
     name = input("Enter your name: ")
     email_input = input("Enter your email: ")
 
-    # Configurações do Selenium para obter o valor do BTC
-    options = webdriver.ChromeOptions()
-    options.add_argument("disable-infobars")
-    options.add_argument("start-maximized")
-    options.add_argument("disable-dev-shm-usage")
-    options.add_argument("no-sandbox")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_argument("disable-blink-features=AutomationControlled")
+    while True:
+        # Configurações do Selenium para obter o valor do BTC
+        options = webdriver.ChromeOptions()
+        options.add_argument("disable-infobars")
+        options.add_argument("start-maximized")
+        options.add_argument("disable-dev-shm-usage")
+        options.add_argument("no-sandbox")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_argument("disable-blink-features=AutomationControlled")
 
-    driver = webdriver.Chrome(options=options)
-    driver.get("https://coinmarketcap.com/currencies/bitcoin/")
+        driver = webdriver.Chrome(options=options)
+        driver.get("https://coinmarketcap.com/currencies/bitcoin/")
 
-    try:
-        # Obter o valor atual do BTC
-        btc_value = get_btc_value(driver)
-        # Enviar e-mail com o valor do BTC
-        send_email(name, email_input, btc_value)
-        print(f"Sent email with BTC value: {btc_value}")
-    finally:
-        driver.quit()
+        try:
+            # Obter o valor atual do BTC
+            btc_value = get_btc_value(driver)
+            # Enviar e-mail com o valor do BTC
+            send_email(name, email_input, btc_value)
+            print(f"Sent email with BTC value: {btc_value}")
+        finally:
+            driver.quit()
+
+        # Esperar 30 segundos antes de obter o valor do BTC novamente
+        time.sleep(30)
 
 if __name__ == "__main__":
     main()
